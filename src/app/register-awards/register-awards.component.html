@@ -1,0 +1,27 @@
+<app-navbar *ngIf="isAuthorized" [username]="username"></app-navbar>
+<div class="container margin">
+
+  <form (submit)="save($event)" autocomplete="off" ngNativeValidate>
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="day">Nombre</label>
+        <input type="text" class="form-control" placeholder="Indique el nombre del Premio" id="name" name="name" required>
+      </div>
+      <div class="form-group col-md-6">
+        <label for="day">Descripcion y Condiciones</label>
+        <input type="textarea" class="form-control" id="description" name="description" placeholder="Indique las condicioens y la descripcion" required>
+      </div>
+    </div>
+    
+    <button type="submit" class="btn btn-primary">GUARDAR</button>
+    <hr>
+    <div class="alert alert-danger" *ngIf="isErrorConnection" role="alert">
+      <ul>
+        <li *ngFor="let error of errors">{{error}}</li>
+      </ul>
+    </div>
+    <div class="alert alert-success" *ngIf="isAwardCreated" role="alert">
+      Ha creado el Premio con exito. <a routerLink="/users"> Listar Premios </a><button class="btn btn-primary" (click)="newAward()">Nuevo Premio</button>
+    </div>
+  </form>
+</div>

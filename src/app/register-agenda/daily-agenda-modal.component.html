@@ -1,0 +1,42 @@
+<div class="modal-header">
+    <h4 class="modal-title">Reservas</h4>
+    <button type="button" class="close" aria-label="Close" (click)="dismiss()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <h5>Mes de {{currentMonth | uppercase}}</h5>
+    <ul class="list-group scroll">
+      <li class="list-group-item" *ngFor="let day of days">
+        <a href="#{{day.dayVisible}}" (click)="getDailyAgenda(day.day);" data-toggle="collapse">
+          {{day.dayVisible}}
+        </a>
+        <div id="{{day.dayVisible}}" class="collapse">
+          <ul>
+            <li *ngFor="let item of dailyAgenda" class="text">
+              <p class="text text-danger" *ngIf="item.status === 'No Disponible'">{{item.hour}} {{item.status | uppercase}} </p>
+              <p class="text text-success" *ngIf="item.status === 'Disponible'">{{item.hour}} {{item.status | uppercase}} </p>
+            </li>
+          </ul>
+        </div>
+        </li>
+    </ul>
+  </div>
+  
+  <div class="alert alert-danger" *ngIf="isErrorConnection" role="alert">
+      <ul>
+        <li *ngFor="let error of errors">{{error}}</li>
+      </ul>
+  </div>
+  
+  <div class="alert alert-danger" *ngIf="isSomeFieldEmpty" role="alert">
+    Todos los Campos deben ser Completados.
+  </div>
+  
+  <div class="alert alert-success" *ngIf="isUserEdited" role="alert">
+    Usuario Editado Correctamente.
+  </div>
+  
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-danger" (click)="close()">CERRAR</button>
+  </div>

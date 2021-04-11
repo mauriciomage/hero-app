@@ -1,0 +1,65 @@
+<app-navbar *ngIf="isAuthorized" [username]="username"></app-navbar>
+<div class="container margin">
+
+  <form (submit)="save($event)" autocomplete="off" ngNativeValidate>
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="username">Usuario</label>
+        <input
+        type="text"
+        class="form-control"
+        (keydown.shift.f)="searchUsers($event)"
+        value="{{userField}}" name="username"
+        id="username"
+        placeholder="Escriba su Nombre y Apellido"
+        required>
+        <ul class="list-group" *ngIf="usersFound.length > 0">
+            Seleccione un Usuario
+            <li class="list-group-item" (click)="setUser(user)" *ngFor="let user of usersFound">{{user.username}}</li>
+        </ul>
+      </div>
+      <div class="form-group col-md-6">
+        <label for="stadium">Seleccine una Cancha</label>
+        <ul class="list-group" *ngIf="stadiums.length > 0">
+          <li 
+          class="list-group-item" 
+          [ngClass]="{'active': stadium == item}"
+          (click)="selectStadium(item)" 
+          *ngFor="let item of stadiums"
+          required>
+            {{item.name}} | {{item.sport}} | {{item.city}}
+          </li>
+        </ul>
+      </div>
+      <div class="form-group col-md-6">
+        <label for="day">Dia</label>
+        <input type="date" class="form-control" id="day" name="day" required>
+      </div>
+      <div class="form-group col-md-6">
+        <label for="hour">Hora</label>
+        <input type="time" class="form-control" id="hour" name="hour" required>
+      </div>
+      <div class="form-group col-md-6">
+          <label for="price">Costo:</label>
+          <input type="text" class="form-control" id="price" name="price" required>
+      </div>
+      <div class="form-group col-md-6">
+        <button class="btn btn-primary" type="button" (click)="openModal()">Ver Disponibilidad</button>
+        <div class="alert alert-danger" *ngIf="isShownAlertModal" role="alert">
+          <strong>Debes seleccionar una cancha previamente.</strong>
+        </div>
+      </div>
+    </div>
+    
+    <button type="submit" class="btn btn-primary">GUARDAR</button>
+    <hr>
+    <div class="alert alert-danger" *ngIf="isAgendaExist || isErrorConnection" role="alert">
+      <ul>
+        <li *ngFor="let error of errors">{{error}}</li>
+      </ul>
+    </div>
+    <div class="alert alert-success" *ngIf="isAgendaCreated" role="alert">
+      Ha creado el Turno con exito. <a routerLink="/agenda"> Listar Turnos </a><button class="btn btn-primary" (click)="newAgenda()">Nuevo Turno</button>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,109 @@
+<app-navbar *ngIf="isAuthorized" [username]="username"></app-navbar>
+<div class="jumbotron">
+  <div class="container margin">
+      <h1 class="display-5" *ngIf="historical.length > 0">Usuarios con mas reservas</h1>
+      <hr>
+        <button type="button" class="btn btn-warning" (click)="setPage('users-awards')" routerLink="/users-awards">Listar Premios Asignados</button>
+      <hr> 
+      <div class="alert alert-warning" *ngIf="historical.length === 0 && !isErrorConnection" role="alert">
+        NO HAY TURNOS EN LA FECHA SELECCIONADA
+      </div>
+      <div class="alert alert-danger " *ngIf="isErrorConnection" role="alert">
+          <ul>
+            <li *ngFor="let error of errors">{{error}}</li>
+          </ul>
+        </div>
+    <h4>Filtrar por:</h4>
+    
+    <button type="button" class="btn btn-primary" [ngClass]="{ 'btn btn-danger' : isSportFilterApplied }" (click)="showFilter('sport', isSportFilterApplied)">{{filterSportText}}</button>
+    &nbsp;&nbsp;
+    <button type="button" class="btn btn-primary" [ngClass]="{ 'btn btn-danger' : isCityFilterApplied }" (click)="showFilter('city', isCityFilterApplied)">{{filterCityText}}</button>
+    &nbsp;&nbsp;
+    <button type="button" class="btn btn-primary" [ngClass]="{ 'btn btn-danger' : isDateFilterApplied }" (click)="showFilter('date',isDateFilterApplied)">{{filterDateText}}</button>
+    &nbsp;&nbsp;&nbsp;
+    <button type="button" *ngIf="isSportFilter || isCityFilter || isDateFilter" class="btn btn-danger" (click)="closeFilters()">
+      Cerrar
+    </button>
+    <div class="width-filter" *ngIf="isSportFilter && !isCityFilter && !isDateFilter">
+        <hr>
+        <h6>Elije el Deporte</h6>
+        <ul class="list-group" *ngIf="sports.length > 0">
+          <li 
+            class="list-group-item"
+            [ngClass]="{'active': stadium == item}"
+            (click)="getHistorical('bySport', item.sport, item)" 
+            *ngFor="let item of sports">
+            {{item.sport}}
+          </li>
+        </ul>
+    </div>
+
+    <div class="width-filter" *ngIf="!isSportFilter && isCityFilter && !isDateFilter">
+        <hr>
+        <h6>Elije la Ciudad</h6>
+        <ul class="list-group" *ngIf="cities.length > 0">
+          <li 
+            class="list-group-item"
+            [ngClass]="{'active': stadium == item}"
+            (click)="getHistorical('byCity', item.city, item)"
+            *ngFor="let item of cities">
+            {{item.city}}
+          </li>
+        </ul>
+    </div>
+
+    <div class="container" *ngIf="!isSportFilter && !isCityFilter && isDateFilter">
+      <hr>
+      <h6>Elije la Fecha:</h6>
+      <form (submit)="setFilterDate($event)" autocomplete="off">
+        <div class="form-row">
+          <div class="form-group col-md-3">
+            <label for="day">Desde</label>
+            <input type="date" class="form-control" id="dayStart" name="dayStart" required>
+          </div>
+          <div class="form-group col-md-3">
+            <label for="day">Hasta</label>
+            <input type="date" class="form-control" id="dayFinish" name="dayFinish" required>
+          </div>
+          <div class="form-group col-md-6">
+            <button type="submit" class="btn btn-warning" id="filter" name="dayFinish" required>
+              Aplicar Filtro
+            </button>
+            &nbsp;
+            <button type="button" class="btn btn-danger" (click)="closeFilters()" required>
+              Cancelar
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+      
+    <hr>
+    <div class="table-wrapper-scroll-y my-custom-scrollbar">
+      <table class="table table-responsive-md table-bordered table-hover table-striped table-dark" *ngIf="historical.length > 0 && !isErrorConnection">
+        <thead>
+          <tr>
+            <th scope="col">Usuario</th>
+            <th scope="col">Celular</th>
+            <th scope="col">Email</th>
+            <th scope="col">Turnos Reservados</th>
+            <th scope="col">Dinero Gastado</th>
+            <th scope="col">Desde</th>
+            <th scope="col">Asignar Premio</th>
+          </tr>
+        </thead>
+        <tbody> 
+          <tr *ngFor="let item of historical">
+            <td>{{item.user.username | titlecase}}</td>
+            <td>{{item.userInfo[0].phone}}</td>
+            <td>{{item.userInfo[0].email}}</td>
+            <td>{{item.count}}</td>
+            <td>{{item.price | currency:'ARS'}}</td>
+            <td>{{item.userInfo[0].created_at}}</td>
+            <td><button class="btn btn-warning center" (click)="asignAward(item.userInfo[0])">Asignar</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

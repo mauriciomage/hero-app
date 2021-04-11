@@ -1,0 +1,31 @@
+<app-navbar *ngIf="isAuthorized" [username]="username"></app-navbar>
+<div class="container margin">
+
+  <form (submit)="save($event)" autocomplete="off" ngNativeValidate>
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="name">Nombre de la Cancha</label>
+        <input type="text" class="form-control" name="name" id="name" placeholder="Nombre descriptivo" required>
+      </div>
+      <div class="form-group col-md-6">
+        <label for="city">Ciudad</label>
+        <input type="text" class="form-control" name="city" id="city" placeholder="Ingrese la ciudad de la cancha" required>
+      </div>
+      <div class="form-group col-md-6">
+        <label for="city">Deporte</label>
+          <input type="text" class="form-control" name="sport" id="sport" placeholder="Deporte" required>
+      </div>
+    </div>
+    
+    <button type="submit" class="btn btn-primary">GUARDAR</button>
+    <hr>
+    <div class="alert alert-danger" *ngIf="isStadiumExist || isErrorConnection" role="alert">
+      <ul>
+        <li *ngFor="let error of errors">{{error}}</li>
+      </ul>
+    </div>
+    <div class="alert alert-success" *ngIf="isStadiumCreated" role="alert">
+      Ha creado la Cancha con éxito. <a routerLink="/stadiums"> Listar Canchas </a><button class="btn btn-primary" (click)="newStadium()">Nueva Cancha</button>
+    </div>
+  </form>
+</div>

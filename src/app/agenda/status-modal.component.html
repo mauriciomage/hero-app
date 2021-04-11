@@ -1,0 +1,23 @@
+<div class="modal-header">
+  <h4 class="modal-title">Actualizar Turno:</h4>
+  <button type="button" class="close" aria-label="Close" (click)="dismiss()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <h6 color="info">Esta a punto de poner el Turno como: {{statusTranslated}}</h6>  
+</div>
+
+<div class="alert alert-danger" *ngIf="isErrorConnection" role="alert">
+    <ul>
+      <li *ngFor="let error of errors">{{error}}</li>
+    </ul>
+</div>
+
+<div class="alert alert-success" *ngIf="isAgendaUpdated" role="alert">
+  Turno Editado Correctamente.
+</div>
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-primary" (click)="updateStatus()">CONFIRMAR</button>
+</div>

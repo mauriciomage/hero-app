@@ -1,0 +1,31 @@
+<div class="modal-header">
+    <h4 class="modal-title">Edita el Precio:</h4>
+    <button type="button" class="close" aria-label="Close" (click)="dismiss()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form autocomplete="off" ngNativeValidate>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="price">Precio: (Cambia por el que usted piensa)</label>
+          <input type="number" class="form-control" name="price" [(ngModel)]="agenda.price" required> 
+        </div>
+      </div>
+    </form>
+    
+  </div>
+  
+  <div class="alert alert-danger" *ngIf="isErrorConnection" role="alert">
+      <ul>
+        <li *ngFor="let error of errors">{{error}}</li>
+      </ul>
+  </div>
+  
+  <div class="alert alert-success" *ngIf="isPriceEdited" role="alert">
+    Precio Editado Correctamente.
+  </div>
+  
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-primary" (click)="editPrice()">EDITAR</button>
+  </div>

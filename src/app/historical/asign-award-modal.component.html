@@ -1,0 +1,40 @@
+<div class="modal-header">
+    <h4 class="modal-title">Elije un Premio!</h4>
+    <button type="button" class="close" aria-label="Close" (click)="dismiss()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="alert alert-danger" *ngIf="isNotAwardSelected" role="alert">
+      <strong>Debe seleccionar un Premio</strong>
+  </div>
+  <div class="modal-body">
+    <div class="form-group col-md-6 scroll">
+      <ul class="list-group" *ngIf="awards.length > 0">
+        <li 
+        class="list-group-item" 
+        [ngClass]="{'active': award == item}"
+        (click)="selectAward(item)" 
+        *ngFor="let item of awards"
+        required>
+          {{item.name}}
+        </li>
+      </ul>
+    </div>
+    <div class="col-md-6">
+
+
+    </div>
+  </div>
+  
+  <div class="alert alert-danger" *ngIf="isUserNotFound || isErrorConnection" role="alert">
+      <ul>
+        <li *ngFor="let error of errors">{{error}}</li>
+      </ul>
+  </div>
+  <div class="alert alert-success" *ngIf="isAwardAsigned" role="alert">
+    Se ha asignado el Premio con Exito <a routerLink="/users-awards">Listar Premios Asignados </a>
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-primary" (click)="asign()">ASIGNAR</button>
+  </div>

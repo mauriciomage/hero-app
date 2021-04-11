@@ -1,0 +1,43 @@
+<app-navbar *ngIf="isAuthorized" [username]="username"></app-navbar>  
+<div class="jumbotron">
+  <div class="container margin">
+      <h1 class="display-4">Últimos {{this.showMaxAgenda }} turnos!</h1>
+      <p class="lead">Para interactuar y ver el historial completo de turnos vaya a la sección <a routerLink='/agenda'>Turnos</a>.</p>    
+      <div class="alert alert-warning" *ngIf="agenda.length === 0 && !isErrorConnection" role="alert">
+          NO HAY TURNOS REGISTRADOS
+        </div>
+        <div class="alert alert-danger" *ngIf="isErrorConnection" role="alert">
+          <ul>
+            <li *ngFor="let error of errors">{{error}}</li>
+          </ul>
+        </div>
+    <div class="table-wrapper-scroll-y my-custom-scrollbar">
+      <table class="table table-responsive-md table-bordered table-hover table-striped table-dark" *ngIf="agenda.length > 0 && !isErrorConnection">
+          <thead>
+              <tr>
+                <th scope="col">Usuario</th>
+                <th scope="col">Cancha</th>
+                <th scope="col">Horario</th>
+                <th scope="col">Dia</th>
+                <th scope="col">Estado</th>
+                <th scope="col">Registrado</th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr *ngFor="let item of agenda">
+                  <td>{{item.user.username | titlecase}}</td>
+                  <td>{{item.stadium.name | titlecase}} - {{item.stadium.sport | uppercase}} - {{item.stadium.city | titlecase}}</td>
+                  <td>{{item.hour}}</td>
+                  <td>{{item.day}}</td>
+                  <td *ngIf="item.status === 'canceled'"><p class="canceled">CANCELADO</p></td>
+                  <td *ngIf="item.status === 'pending'"><p class="pending">PENDIENTE</p></td>
+                  <td *ngIf="item.status === 'confirmed'"><p class="confirmed">CONFIRMADO</p></td>
+                  <td *ngIf="item.status === 'finished'"><p class="finished">FINALIZADO</p></td>
+                  <td>{{item.created_at}}</td>
+                </tr>
+           
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>

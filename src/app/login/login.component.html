@@ -1,0 +1,28 @@
+<div class="container margin-top" >
+  <div class="row">
+    <div class="col">
+    </div>
+    <div class="col">
+      <form (submit)="login($event)" autocomplete="off" ngNativeValidate>
+        <h4>Bienvenido a Hero</h4>
+        <div class="form-group">
+          <label for="email">Ingrese Email</label>
+          <input type="email" class="form-control" autocomplete="off" id="email"  placeholder="Email" required>
+        </div>
+        <div class="form-group">
+          <label for="password">Contraseña</label>
+          <input type="password" class="form-control" required autocomplete="new-password" id="password" placeholder="Contraseña">
+        </div>
+        <button type="submit" class="btn btn-primary">Ingresar</button>
+        <small id="emailHelp" class="form-text text-muted">Si desea crear otra cuenta de Administrador puedes ir a la sección Usuarios.</small>
+        <div class="alert alert-danger" *ngIf="isUserInvalid || isErrorConnection" role="alert">
+          <ul>
+            <li *ngFor="let error of errors">{{error}}</li>
+          </ul>
+        </div>
+      </form>
+    </div>  
+    <div class="col">
+    </div>
+  </div>  
+</div>

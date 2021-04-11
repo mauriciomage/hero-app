@@ -1,0 +1,37 @@
+<app-navbar *ngIf="isAuthorized" [username]="username"></app-navbar>
+<div class="jumbotron">
+  <div class="container margin">
+      <h1 class="display-5" *ngIf="usersAwards.length > 0">Premios Asignados</h1>
+        <hr>
+      <div class="alert alert-warning" *ngIf="usersAwards.length === 0 && !isErrorConnection" role="alert">
+        NO HAY PREMIOS ASIGNADOS AUN
+      </div>
+      <div class="alert alert-danger" *ngIf="isErrorConnection" role="alert">
+        <ul>
+          <li *ngFor="let error of errors">{{error}}</li>
+        </ul>
+      </div>
+      <table class="table table-responsive-md table-bordered table-hover table-striped table-dark" *ngIf="usersAwards.length > 0 && !isErrorConnection">
+          <thead>
+            <tr>
+              <th scope="col">Usuario</th>
+              <th scope="col">Email</th>
+              <th scope="col">Telefono</th>
+              <th scope="col">Se Regsitró</th>
+              <th scope="col">Premio</th>
+              <th scope="col">Se Asginó</th>
+            </tr>
+          </thead>
+          <tbody> 
+            <tr *ngFor="let userAward of usersAwards">
+              <td>{{userAward.user.username}}</td>
+              <td>{{userAward.user.email}}</td>
+              <td>{{userAward.user.phone}}</td>
+              <td>{{userAward.user.created_at}}</td>
+              <td>{{userAward.award.name}}</td>
+              <td>{{userAward.created_at}}</td>
+            </tr>
+          </tbody>
+        </table>
+    </div>
+</div>

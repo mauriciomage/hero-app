@@ -1,0 +1,42 @@
+<app-navbar *ngIf="isAuthorized" [username]="username"></app-navbar>
+<div class="jumbotron">
+  <div class="container margin">
+      <h1 class="display-5" *ngIf="users.length > 0">Usuarios Creados</h1>
+      <p class="lead"><a routerLink='/register-user'>NUEVO USUARIO</a></p>    
+      <div class="alert alert-warning" *ngIf="users.length === 0 && !isErrorConnection" role="alert">
+        NO HAY USUARIOS CREADOS AUN.
+      </div>
+      <div class="alert alert-danger" *ngIf="isErrorConnection" role="alert">
+        <ul>
+          <li *ngFor="let error of errors">{{error}}</li>
+        </ul>
+      </div>
+      <div class="table-wrapper-scroll-y my-custom-scrollbar">
+        <table class="table table-responsive-md table-bordered table-hover table-striped table-dark" *ngIf="users.length > 0 && !isErrorConnection">
+            <thead>
+              <tr>
+                <th scope="col">Nombre</th>
+                <th scope="col">Email</th>
+                <th scope="col">Telefono</th>
+                <th scope="col">Ciudad</th>
+                <th scope="col">Acciones</th>
+              </tr>
+            </thead>
+            <tbody style="height: 10px !important; overflow-y: auto; "> 
+              <tr *ngFor="let user of users">
+                <td>{{user.username | titlecase}}</td>
+                <td>{{user.email}}</td>
+                <td>{{user.phone}}</td>
+                <td>{{user.city | titlecase}}</td>
+                <td>
+                  <!--
+                    <button class="btn btn-danger center" (click)="deleteUser(user)">Borrar</button>&nbsp;&nbsp;
+                  -->
+                  <button class="btn btn-warning center" (click)="editUser(user)">Editar</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+      </div>
+    </div>
+  </div>

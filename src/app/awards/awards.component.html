@@ -1,0 +1,31 @@
+<app-navbar *ngIf="isAuthorized" [username]="username"></app-navbar>
+<div class="jumbotron">
+  <div class="container margin">
+      <h1 class="display-5" *ngIf="awards.length > 0">Premios Creados</h1>
+      <p class="lead"><a routerLink='/register-awards'>Nuevo Premio</a></p>
+      <div class="alert alert-warning" *ngIf="awards.length === 0 && !isErrorConnection" role="alert">
+        NO HAY PREMIOS CARGADOS AUN
+      </div>
+      <div class="alert alert-danger" *ngIf="isErrorConnection" role="alert">
+        <ul>
+          <li *ngFor="let error of errors">{{error}}</li>
+        </ul>
+      </div>
+      <table class="table table-responsive-sm table-bordered table-hover table-striped table-dark" *ngIf="awards.length > 0 && !isErrorConnection">
+          <thead>
+            <tr>
+              <th scope="col">Nombre</th>
+              <th scope="col">Descripción</th>
+              <th scope="col">Se creó</th>
+            </tr>
+          </thead>
+          <tbody> 
+            <tr *ngFor="let award of awards">
+              <td>{{award.name}}</td>
+              <td>{{award.description}}</td>
+              <td>{{award.created_at}}</td>
+            </tr>
+          </tbody>
+        </table>
+    </div>
+  </div>

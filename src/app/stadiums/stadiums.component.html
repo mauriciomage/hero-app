@@ -1,0 +1,33 @@
+<app-navbar *ngIf="isAuthorized" [username]="username"></app-navbar>
+<div class="jumbotron">
+  <div class="container margin">
+      <h1 class="display-5" *ngIf="stadiums.length > 0">Canchas Creadas</h1>
+      <p class="lead"><a routerLink='/register-stadium'>Nueva Cancha</a></p>
+      <div class="alert alert-warning" *ngIf="stadiums.length === 0 && !isErrorConnection" role="alert">
+        NO HAY CANCHAS CREADAS AUN
+      </div>
+      <div class="alert alert-danger" *ngIf="isErrorConnection" role="alert">
+        <ul>
+          <li *ngFor="let error of errors">{{error}}</li>
+        </ul>
+      </div>
+      <table class="table table-responsive-md table-bordered table-hover table-striped table-dark" *ngIf="stadiums.length > 0 && !isErrorConnection">
+          <thead>
+            <tr>
+              <th scope="col">Nombre</th>
+              <th scope="col">Deporte</th>
+              <th scope="col">Ciudad</th>
+              <th scope="col">Creada</th>
+            </tr>
+          </thead>
+          <tbody> 
+            <tr *ngFor="let stadium of stadiums">
+              <td>{{stadium.name}}</td>
+              <td>{{stadium.sport}}</td>
+              <td>{{stadium.city}}</td>
+              <td>{{stadium.created_at}}</td>
+            </tr>
+          </tbody>
+        </table>
+    </div>
+  </div>

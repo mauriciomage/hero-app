@@ -1,0 +1,47 @@
+<div class="modal-header">
+  <h4 class="modal-title">Edita el Usuario:</h4>
+  <button type="button" class="close" aria-label="Close" (click)="dismiss()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form autocomplete="off">
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="email">Email</label>
+        <input type="email" class="form-control" name="email" [(ngModel)]="user.email" required> 
+      </div>
+      <div class="form-group col-md-6">
+        <label for="username">Nombre Completo</label>
+        <input type="text" class="form-control" autocomplete="off" [(ngModel)]="user.username" name="username" required>
+      </div>
+      <div class="form-group col-md-6">
+        <label for="phone">Telefono</label>
+        <input type="number" class="form-control" [(ngModel)]="user.phone" name="phone" required>
+      </div>
+      <div class="form-group col-md-6">
+        <label for="city">Ciudad</label>
+        <input type="text" class="form-control" [(ngModel)]="user.city" name="city" required>
+      </div>
+    </div>
+  </form>
+  
+</div>
+
+<div class="alert alert-danger" *ngIf="isErrorConnection" role="alert">
+    <ul>
+      <li *ngFor="let error of errors">{{error}}</li>
+    </ul>
+</div>
+
+<div class="alert alert-danger" *ngIf="isSomeFieldEmpty" role="alert">
+  Todos los Campos deben ser Completados.
+</div>
+
+<div class="alert alert-success" *ngIf="isUserEdited" role="alert">
+  Usuario Editado Correctamente.
+</div>
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-primary" (click)="editUser()">EDITAR</button>
+</div>

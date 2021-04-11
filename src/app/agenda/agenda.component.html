@@ -1,0 +1,53 @@
+<app-navbar *ngIf="isAuthorized" [username]="username"></app-navbar>
+<div class="jumbotron">
+  <div class="container margin">
+      <h1 class="display-5" *ngIf="agenda.length > 0">Turnos Creados</h1>
+      <p class="lead"><a routerLink='/register-agenda'>Registrar Turno</a></p>    
+      <div class="alert alert-warning" *ngIf="agenda.length === 0 && !isErrorConnection" role="alert">
+        NO HAY TURNOS EN LA FECHA SELECCIONADA
+      </div>
+      
+      <div class="alert alert-danger " *ngIf="isErrorConnection" role="alert">
+        <ul>
+          <li *ngFor="let error of errors">{{error}}</li>
+        </ul>
+      </div>
+      <div class="table-wrapper-scroll-y my-custom-scrollbar">
+        <table class="table table-responsive-md table-bordered table-hover table-striped mb-0 table-dark" *ngIf="agenda.length > 0 && !isErrorConnection">
+            <thead>
+              <tr>
+                <th scope="col">Usuario</th>
+                <th scope="col">Cancha</th>
+                <th scope="col">Horario</th>
+                <th scope="col">Dia</th>
+                <th scope="col">Precio</th>
+                <th scope="col">Estado</th>
+                <th scope="col">Cambiar Estado</th>
+                <th scope="col">Registrado</th>
+              </tr>
+            </thead>
+            <tbody> 
+              <tr *ngFor="let item of agenda">
+                <td>{{item.user.username | titlecase}}</td>
+                <td>{{item.stadium.name | titlecase}} - {{item.stadium.sport | uppercase}} - {{item.stadium.city | titlecase}}</td>
+                <td>{{item.hour}} Hs.</td>
+                <td>{{item.day}}</td>
+                <td>{{item.price | currency:'ARS'}} <button class="btn-sm btn-warning right" (click)="editPrice(item)"> EDITAR </button> </td>
+                <td *ngIf="item.status === 'canceled'"><p class="canceled">CANCELADO</p></td>
+                <td *ngIf="item.status === 'pending'"><p class="pending">PENDIENTE</p></td>
+                <td *ngIf="item.status === 'confirmed'"><p class="confirmed">CONFIRMADO</p></td>
+                <td *ngIf="item.status === 'finished'"><p class="finished">FINALIZADO</p></td>
+                <td>
+                  <button class="btn btn-danger center" *ngIf="item.status === 'confirmed' || item.status === 'pending'" (click)="changeStatus(item._id, 'canceled')">CANCELAR</button>&nbsp;&nbsp;
+                  <button class="btn btn-success center" *ngIf="item.status === 'pending'" (click)="changeStatus(item._id, 'confirmed')">CONFIRMAR</button>
+                  <button class="btn btn-info center" *ngIf="item.status === 'confirmed'" (click)="changeStatus(item._id, 'finished')">FINALIZAR</button>
+                  <button class="btn btn-danger center" disabled *ngIf="item.status === 'canceled'">CANCELADO</button>
+                  <button class="btn btn-info center" disabled *ngIf="item.status === 'finished'">FINALIZADO</button>
+                </td>
+                <td>{{item.created_at}}</td>
+              </tr>
+            </tbody>
+        </table>
+      </div>  
+    </div>
+  </div>
